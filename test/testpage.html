@@ -4,8 +4,31 @@
     <meta charset="utf-8" />
     <title>Trigger Happy Tests</title>
     
-    <link rel="stylesheet" href="css/main.css" type="text/css" />
+    <link rel="stylesheet" href="jasmine.css" type="text/css" />
+    
+    <script type="text/javascript" src=" http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
+    <script type="text/javascript" src="jasmine.js"></script>
+    <script type="text/javascript" src="jasmine-html.js"></script>
+    <script type="text/javascript" src="../src/trigger_happy.js"></script>
 </head>
 <body>
+    <div id="testElt"></div>
+    
+    <script type="text/javascript">
+        describe('Trigger', function() {
+            it('Should fire a mouse click event on an element.', function() {
+                var elt = $('#testElt').get(0);
+                
+                $(elt).click(function(evt) {
+                    expect(evt.target).toEqual(elt);
+                });
+                
+                Trigger.fire(elt, 'click');
+            });
+        });
+        
+        jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+        jasmine.getEnv().execute();
+    </script>
 </body>
 </html>
