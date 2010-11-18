@@ -16,15 +16,70 @@
     
     <script type="text/javascript">
         describe('Trigger', function() {
-            it('Should fire a mouse click event on an element.', function() {
-                var elt = $('#testElt').get(0);
-                
-                $(elt).click(function(evt) {
-                    expect(evt.target).toEqual(elt);
+            describe('mouse', function() {
+                it('Should trigger a mouse click event on an element.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.target).toEqual(elt);
+                    });
+
+                    Trigger.mouse(elt, 'click');
+
+                    $(elt).unbind();
+                });
+
+                it('Should trigger a mouse click event on an element with the ctrl key modifier.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.target).toEqual(elt);
+                    });
+
+                    Trigger.mouse(elt, 'click', {});
+
+                    $(elt).unbind();
                 });
                 
-                Trigger.fire(elt, 'click');
-            });
+                it('Should trigger a mouse click event with the left mouse button.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.target).toEqual(elt);
+                        expect(evt.button).toEqual(0);
+                    });
+
+                    Trigger.mouse(elt, 'click', { button: 'left' });
+
+                    $(elt).unbind();
+                });
+
+                it('Should trigger a mouse click event with the middle mouse button.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.target).toEqual(elt);
+                        expect(evt.button).toEqual(1);
+                    });
+
+                    Trigger.mouse(elt, 'click', { button: 'middle' });
+
+                    $(elt).unbind();
+                });
+                
+                it('Should trigger a mouse click event with the right mouse button.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.target).toEqual(elt);
+                        expect(evt.button).toEqual(2);
+                    });
+
+                    Trigger.mouse(elt, 'click', { button: 'right' });
+
+                    $(elt).unbind();
+                });
+            })
         });
         
         jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
