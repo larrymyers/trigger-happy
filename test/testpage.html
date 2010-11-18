@@ -17,35 +17,82 @@
     <script type="text/javascript">
         describe('Trigger', function() {
             describe('mouse', function() {
-                it('Should trigger a mouse click event on an element.', function() {
+                it('Should default to triggering a click event on the element.', function() {
                     var elt = $('#testElt').get(0);
 
                     $(elt).click(function(evt) {
                         expect(evt.target).toEqual(elt);
                     });
 
-                    Trigger.mouse(elt, 'click');
-
-                    $(elt).unbind();
-                });
-
-                it('Should trigger a mouse click event on an element with the ctrl key modifier.', function() {
-                    var elt = $('#testElt').get(0);
-
-                    $(elt).click(function(evt) {
-                        expect(evt.target).toEqual(elt);
-                    });
-
-                    Trigger.mouse(elt, 'click', {});
+                    Trigger.mouse(elt);
 
                     $(elt).unbind();
                 });
                 
-                it('Should trigger a mouse click event with the left mouse button.', function() {
+                it('Should trigger the specified event on an element.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).mousedown(function(evt) {
+                        expect(evt.target).toEqual(elt);
+                    });
+
+                    Trigger.mouse(elt, 'mousedown');
+
+                    $(elt).unbind();
+                });
+
+                it('Should trigger a mouse event on an element with the ctrl key modifier.', function() {
                     var elt = $('#testElt').get(0);
 
                     $(elt).click(function(evt) {
-                        expect(evt.target).toEqual(elt);
+                        expect(evt.ctrlKey).toEqual(true);
+                    });
+
+                    Trigger.mouse(elt, 'click', { keys: ['ctrl'] });
+
+                    $(elt).unbind();
+                });
+                
+                it('Should trigger a mouse event on an element with the alt key modifier.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.altKey).toEqual(true);
+                    });
+
+                    Trigger.mouse(elt, 'click', { keys: ['alt'] });
+
+                    $(elt).unbind();
+                });
+                
+                it('Should trigger a mouse event on an element with the shift key modifier.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.shiftKey).toEqual(true);
+                    });
+
+                    Trigger.mouse(elt, 'click', { keys: ['shift'] });
+
+                    $(elt).unbind();
+                });
+                
+                it('Should trigger a mouse event on an element with the meta key modifier.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.metaKey).toEqual(true);
+                    });
+
+                    Trigger.mouse(elt, 'click', { keys: ['meta'] });
+
+                    $(elt).unbind();
+                });
+                
+                it('Should trigger a mouse event with the left mouse button.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
                         expect(evt.button).toEqual(0);
                     });
 
@@ -54,11 +101,10 @@
                     $(elt).unbind();
                 });
 
-                it('Should trigger a mouse click event with the middle mouse button.', function() {
+                it('Should trigger a mouse event with the middle mouse button.', function() {
                     var elt = $('#testElt').get(0);
 
                     $(elt).click(function(evt) {
-                        expect(evt.target).toEqual(elt);
                         expect(evt.button).toEqual(1);
                     });
 
@@ -67,17 +113,40 @@
                     $(elt).unbind();
                 });
                 
-                it('Should trigger a mouse click event with the right mouse button.', function() {
+                it('Should trigger a mouse event with the right mouse button.', function() {
                     var elt = $('#testElt').get(0);
 
                     $(elt).click(function(evt) {
-                        expect(evt.target).toEqual(elt);
                         expect(evt.button).toEqual(2);
                     });
 
                     Trigger.mouse(elt, 'click', { button: 'right' });
 
                     $(elt).unbind();
+                });
+                
+                it('Should be able to specify the number of clicks on a mouse event.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).dblclick(function(evt) {
+                        expect(evt.detail).toEqual(2);
+                    });
+
+                    Trigger.mouse(elt, 'dblclick', { clickCount: 2 });
+
+                    $(elt).unbind();
+                });
+                
+                it('Should default to triggering the mouse event at the top left coordinates of the element.', function() {
+                    
+                });
+                
+                it('Should be able to trigger the mouse event with coordinates relative to the element.', function() {
+                    
+                });
+                
+                it('Should be able to trigger the mouse event with coordinates relative to the screen.', function() {
+                    
                 });
             })
         });
