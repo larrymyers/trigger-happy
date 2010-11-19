@@ -10,9 +10,20 @@
     <script type="text/javascript" src="jasmine.js"></script>
     <script type="text/javascript" src="jasmine-html.js"></script>
     <script type="text/javascript" src="../src/trigger_happy.js"></script>
+    
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #testElt {
+            margin: 10px 0px 10px 20px;
+        }
+    </style>
 </head>
 <body>
-    <div id="testElt"></div>
+    <a id="testElt" href="javascript:void(0);">This is a test element.</a>
     
     <script type="text/javascript">
         describe('Trigger', function() {
@@ -138,7 +149,16 @@
                 });
                 
                 it('Should default to triggering the mouse event at the top left coordinates of the element.', function() {
-                    
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.clientX).toEqual(20);
+                        expect(evt.clientY).toEqual(0);
+                    });
+
+                    Trigger.mouse(elt);
+
+                    $(elt).unbind();
                 });
                 
                 it('Should be able to trigger the mouse event with coordinates relative to the element.', function() {

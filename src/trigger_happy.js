@@ -54,9 +54,15 @@
                 shiftKey = keys.indexOf('shift') > -1 ? true : false,
                 metaKey = keys.indexOf('meta') > -1 ? true : false,
                 button = setButton(options.button),
-                detail = options.clickCount || 0;
+                detail = options.clickCount || 0,
+                box = { top: 0, left: 0};
+                
             
-            evt.initMouseEvent(evtName, true, true, window, detail, 0, 0, 0, 0, ctrlKey, altKey, shiftKey, metaKey, button, null);
+            if (elt.getBoundingClientRect) {
+                box = elt.getBoundingClientRect();
+            }
+            
+            evt.initMouseEvent(evtName, true, true, window, detail, 0, 0, box.left, box.top, ctrlKey, altKey, shiftKey, metaKey, button, null);
             elt.dispatchEvent(evt);
         }
     };
