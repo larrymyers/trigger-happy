@@ -1,6 +1,6 @@
 (function() {
     
-    function isIE() {
+    var isIE = function() {
         var ua = navigator.userAgent;
         
         if (ua.toLowerCase().indexOf('msie') > -1) {
@@ -8,7 +8,7 @@
         }
         
         return false;
-    }
+    }();
     
     function setButton(buttonStr) {
         buttonStr = buttonStr ? buttonStr.toLowerCase() : 'left';
@@ -18,10 +18,19 @@
         }
         
         if (buttonStr === 'middle') {
-            return isIE() ? 4 : 1 
+            return isIE ? 4 : 1 
         }
         
-        return isIE() ? 1 : 0;
+        return isIE ? 1 : 0;
+    }
+    
+    function getElementPosition(elt) {
+        
+        if (elt.getBoundingClientRect) {
+            return elt.getBoundingClientRect();
+        }
+        
+        return { top: 0, left: 0 };
     }
     
     window.Trigger = {
@@ -55,15 +64,23 @@
                 metaKey = keys.indexOf('meta') > -1 ? true : false,
                 button = setButton(options.button),
                 detail = options.clickCount || 0,
-                box = { top: 0, left: 0};
-                
-            
-            if (elt.getBoundingClientRect) {
-                box = elt.getBoundingClientRect();
-            }
+                box = getElementPosition(elt);
             
             evt.initMouseEvent(evtName, true, true, window, detail, 0, 0, box.left, box.top, ctrlKey, altKey, shiftKey, metaKey, button, null);
             elt.dispatchEvent(evt);
+        },
+        
+        keys: function(elt, evtName, options) {
+            var evt = document.createEvent("KeyEvents"),
+                evtName = evtName || 'keypress',
+                keyCode = options.keyCode || 97,
+                keys = options.keys ? options.keys.join(' ') : "",
+                ctrlKey = keys.indexOf('ctrl') > -1 ? true : false,
+                altKey = keys.indexOf('alt') > -1 ? true : false,
+                shiftKey = keys.indexOf('shift') > -1 ? true : false,
+                metaKey = keys.indexOf('meta') > -1 ? true : false;
+            
+            evt.initKeyEvent(evtName, true, true, null, ctrlKey, altKey, shiftKey, metaKey, keyCode, 0);
         }
     };
 })();
