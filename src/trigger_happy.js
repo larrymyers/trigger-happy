@@ -54,8 +54,7 @@
          *                relative to the browser window. Takes precedence over relPosition.
          */
         mouse: function(elt, evtName, options) {
-            var evt = document.createEvent("MouseEvents"),
-                options = options || {},
+            var options = options || {},
                 evtName = evtName || 'click',
                 keys = options.keys ? options.keys.join(' ') : "",
                 ctrlKey = keys.indexOf('ctrl') > -1 ? true : false,
@@ -64,10 +63,36 @@
                 metaKey = keys.indexOf('meta') > -1 ? true : false,
                 button = setButton(options.button),
                 detail = options.clickCount || 0,
-                box = getElementPosition(elt);
+                box = getElementPosition(elt),
+                evt;
+                
+            if (options.absPosition) {
+                box.left = options.absPosition[0];
+                box.top = options.absPosition[1];
+            } else if (options.relPosition) {
+                box.left += options.relPosition[0];
+                box.top += options.relPosition[1];
+            }
             
-            evt.initMouseEvent(evtName, true, true, window, detail, 0, 0, box.left, box.top, ctrlKey, altKey, shiftKey, metaKey, button, null);
-            elt.dispatchEvent(evt);
+            if (isIE) {
+                evtName = 'on' + evtName.toLowerCase();
+                
+                evt = document.createEventObject();
+                evt.ctrlKey = ctrlKey;
+                evt.altKey = altKey;
+                evt.shiftKey = shiftKey;
+                evt.metaKey = metaKey;
+                evt.button = button;
+                evt.detail = detail;
+                evt.clientX = box.left;
+                evt.clientY = box.top;
+                
+                elt.fireEvent(evtName, evt);
+            } else {
+                evt = document.createEvent("MouseEvents");
+                evt.initMouseEvent(evtName, true, true, window, detail, 0, 0, box.left, box.top, ctrlKey, altKey, shiftKey, metaKey, button, null);
+                elt.dispatchEvent(evt);
+            }
         },
         
         keys: function(elt, evtName, options) {

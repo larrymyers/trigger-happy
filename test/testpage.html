@@ -26,6 +26,8 @@
     <a id="testElt" href="javascript:void(0);">This is a test element.</a>
     
     <script type="text/javascript">
+        var msie = $.browser.msie;
+        
         describe('Trigger', function() {
             describe('mouse', function() {
                 it('Should default to triggering a click event on the element.', function() {
@@ -101,10 +103,11 @@
                 });
                 
                 it('Should trigger a mouse event with the left mouse button.', function() {
-                    var elt = $('#testElt').get(0);
+                    var elt = $('#testElt').get(0),
+                        expectedButton = msie ? 1 : 0;
 
                     $(elt).click(function(evt) {
-                        expect(evt.button).toEqual(0);
+                        expect(evt.button).toEqual(expectedButton);
                     });
 
                     Trigger.mouse(elt, 'click', { button: 'left' });
@@ -113,10 +116,11 @@
                 });
 
                 it('Should trigger a mouse event with the middle mouse button.', function() {
-                    var elt = $('#testElt').get(0);
+                    var elt = $('#testElt').get(0),
+                        expectedButton = msie ? 4 : 1;
 
                     $(elt).click(function(evt) {
-                        expect(evt.button).toEqual(1);
+                        expect(evt.button).toEqual(expectedButton);
                     });
 
                     Trigger.mouse(elt, 'click', { button: 'middle' });
@@ -165,7 +169,7 @@
                     
                 });
                 
-                it('Should be able to trigger the mouse event with coordinates relative to the screen.', function() {
+                it('Should be able to trigger the mouse event with coordinates relative to the client window.', function() {
                     
                 });
             })
