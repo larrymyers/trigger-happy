@@ -166,13 +166,45 @@
                 });
                 
                 it('Should be able to trigger the mouse event with coordinates relative to the element.', function() {
-                    
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.clientX).toEqual(30);
+                        expect(evt.clientY).toEqual(20);
+                    });
+
+                    Trigger.mouse(elt, 'click', {
+                        relPosition: [10, 20]
+                    });
+
+                    $(elt).unbind();
                 });
                 
                 it('Should be able to trigger the mouse event with coordinates relative to the client window.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.clientX).toEqual(25);
+                        expect(evt.clientY).toEqual(26);
+                    });
+
+                    Trigger.mouse(elt, 'click', {
+                        absPosition: [25, 26]
+                    });
+
+                    $(elt).unbind();
+                });
+            });
+            
+            describe('keys', function() {
+                it('Should trigger a keypress event with a character code specified.', function() {
                     
                 });
-            })
+                
+                it('Should trigger a keydown event with the keycode specified.', function() {
+                    
+                });
+            });
         });
         
         jasmine.getEnv().addReporter(new jasmine.TrivialReporter());

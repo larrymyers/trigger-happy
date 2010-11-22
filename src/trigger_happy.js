@@ -25,12 +25,19 @@
     }
     
     function getElementPosition(elt) {
+        var position = { top: 0, left: 0 },
+            box;
         
         if (elt.getBoundingClientRect) {
-            return elt.getBoundingClientRect();
+            box = elt.getBoundingClientRect();
+            
+            position = {
+                top: box.top,
+                left: box.left
+            };
         }
         
-        return { top: 0, left: 0 };
+        return position;
     }
     
     window.Trigger = {
