@@ -194,6 +194,20 @@
 
                     $(elt).unbind();
                 });
+                
+                it('Should return true if the triggered event is stopped.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        evt.preventDefault();
+                    });
+
+                    var propagated = Trigger.mouse(elt);
+                    
+                    expect(propagated).toEqual(false);
+
+                    $(elt).unbind();
+                });
             });
             
             describe('keys', function() {

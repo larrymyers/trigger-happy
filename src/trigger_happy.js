@@ -94,12 +94,12 @@
                 evt.clientX = box.left;
                 evt.clientY = box.top;
                 
-                elt.fireEvent(evtName, evt);
-            } else {
-                evt = document.createEvent("MouseEvents");
-                evt.initMouseEvent(evtName, true, true, window, detail, 0, 0, box.left, box.top, ctrlKey, altKey, shiftKey, metaKey, button, null);
-                elt.dispatchEvent(evt);
+                return elt.fireEvent(evtName, evt);
             }
+            
+            evt = document.createEvent("MouseEvents");
+            evt.initMouseEvent(evtName, true, true, window, detail, 0, 0, box.left, box.top, ctrlKey, altKey, shiftKey, metaKey, button, null);
+            return elt.dispatchEvent(evt);
         },
         
         keys: function(elt, evtName, options) {
