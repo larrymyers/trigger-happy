@@ -102,6 +102,19 @@
                     $(elt).unbind();
                 });
                 
+                it('Should trigger a mouse event on an element with multiple key modifiers.', function() {
+                    var elt = $('#testElt').get(0);
+
+                    $(elt).click(function(evt) {
+                        expect(evt.ctrlKey).toEqual(true);
+                        expect(evt.shiftKey).toEqual(true);
+                    });
+
+                    Trigger.mouse(elt, 'click', { keys: ['ctrl','shift'] });
+
+                    $(elt).unbind();
+                });
+                
                 it('Should trigger a mouse event with the left mouse button.', function() {
                     var elt = $('#testElt').get(0),
                         expectedButton = msie ? 1 : 0;

@@ -99,6 +99,7 @@
             
             evt = document.createEvent("MouseEvents");
             evt.initMouseEvent(evtName, true, true, window, detail, 0, 0, box.left, box.top, ctrlKey, altKey, shiftKey, metaKey, button, null);
+            
             return elt.dispatchEvent(evt);
         },
         
