@@ -224,8 +224,16 @@
             });
             
             describe('keys', function() {
-                it('Should trigger a keypress event with a character code specified.', function() {
+                it('Should trigger a keydown event with a character code specified.', function() {
+                    var elt = $('#testElt').get(0);
                     
+                    $(elt).keydown(function(evt) {
+                        expect(evt.type).toEqual('keydown');
+                    });
+                    
+                    Trigger.keys(elt, 'keydown');
+                    
+                    $(elt).unbind();
                 });
                 
                 it('Should trigger a keydown event with the keycode specified.', function() {

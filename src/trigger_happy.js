@@ -104,7 +104,8 @@
         },
         
         keys: function(elt, evtName, options) {
-            var evt = document.createEvent("KeyEvents"),
+            var options = options || {},
+                evt = document.createEvent("KeyboardEvent"),
                 evtName = evtName || 'keypress',
                 keyCode = options.keyCode || 97,
                 keys = options.keys ? options.keys.join(' ') : "",
@@ -113,7 +114,9 @@
                 shiftKey = keys.indexOf('shift') > -1 ? true : false,
                 metaKey = keys.indexOf('meta') > -1 ? true : false;
             
-            evt.initKeyEvent(evtName, true, true, null, ctrlKey, altKey, shiftKey, metaKey, keyCode, 0);
+            evt.initKeyboardEvent(evtName, true, true, null, ctrlKey, altKey, shiftKey, metaKey, keyCode, 0);
+            
+            return elt.dispatchEvent(evt);
         }
     };
 })();
