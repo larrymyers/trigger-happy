@@ -229,9 +229,10 @@
                     
                     $(elt).keydown(function(evt) {
                         expect(evt.type).toEqual('keydown');
+                        expect(evt.keyCode).toEqual(65);
                     });
                     
-                    Trigger.keys(elt, 'keydown');
+                    Trigger.keys(elt, 'keydown', { keyCode: 65 });
                     
                     $(elt).unbind();
                 });

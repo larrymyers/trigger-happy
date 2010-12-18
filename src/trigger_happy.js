@@ -107,7 +107,8 @@
             var options = options || {},
                 evt = document.createEvent("KeyboardEvent"),
                 evtName = evtName || 'keypress',
-                keyCode = options.keyCode || 97,
+                keyCode = options.keyCode || 0,
+                charCode = options.charCode || 0,
                 keys = options.keys ? options.keys.join(' ') : "",
                 ctrlKey = keys.indexOf('ctrl') > -1 ? true : false,
                 altKey = keys.indexOf('alt') > -1 ? true : false,
@@ -115,7 +116,7 @@
                 metaKey = keys.indexOf('meta') > -1 ? true : false,
                 evtMethod = evt.initKeyEvent ? "initKeyEvent" : "initKeyboardEvent";
             
-            evt[evtMethod](evtName, true, true, null, ctrlKey, altKey, shiftKey, metaKey, keyCode, 0);
+            evt[evtMethod](evtName, true, true, null, ctrlKey, altKey, shiftKey, metaKey, keyCode, charCode);
             
             return elt.dispatchEvent(evt);
         }
