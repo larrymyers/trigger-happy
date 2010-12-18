@@ -112,9 +112,10 @@
                 ctrlKey = keys.indexOf('ctrl') > -1 ? true : false,
                 altKey = keys.indexOf('alt') > -1 ? true : false,
                 shiftKey = keys.indexOf('shift') > -1 ? true : false,
-                metaKey = keys.indexOf('meta') > -1 ? true : false;
+                metaKey = keys.indexOf('meta') > -1 ? true : false,
+                evtMethod = evt.initKeyEvent ? "initKeyEvent" : "initKeyboardEvent";
             
-            evt.initKeyboardEvent(evtName, true, true, null, ctrlKey, altKey, shiftKey, metaKey, keyCode, 0);
+            evt[evtMethod](evtName, true, true, null, ctrlKey, altKey, shiftKey, metaKey, keyCode, 0);
             
             return elt.dispatchEvent(evt);
         }
