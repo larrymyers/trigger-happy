@@ -18,7 +18,7 @@
         }
         
         if (buttonStr === 'middle') {
-            return isIE ? 4 : 1 
+            return isIE ? 4 : 1 ;
         }
         
         return isIE ? 1 : 0;
@@ -61,9 +61,10 @@
          *                relative to the browser window. Takes precedence over relPosition.
          */
         mouse: function(elt, evtName, options) {
-            var options = options || {},
-                evtName = evtName || 'click',
-                keys = options.keys ? options.keys.join(' ') : "",
+            options = options || {};
+            evtName = evtName || 'click';
+            
+            var keys = options.keys ? options.keys.join(' ') : "",
                 ctrlKey = keys.indexOf('ctrl') > -1 ? true : false,
                 altKey = keys.indexOf('alt') > -1 ? true : false,
                 shiftKey = keys.indexOf('shift') > -1 ? true : false,
@@ -103,19 +104,50 @@
             return elt.dispatchEvent(evt);
         },
         
-        keys: function(elt, evtName, options) {
-            var options = options || {},
-                evt = document.createEvent("KeyboardEvent"),
-                evtName = evtName || 'keypress',
-                keyCode = options.keyCode || 0,
+        /**
+         * Triggers a keyboard event on a DOM element.
+         *
+         * If no options are provided, it defaults to no modifier keys, one click of the
+         * left button, positioned on the top left corner of the target element.
+         *
+         * elt - The DOM element to trigger the mouse event on (required).
+         * evtName - Optional W3C style event name (required) (ex: keypress, keydown, keyup).
+         * options - An optional object that contains the configuration options for the event.
+         *   keys: {Array} string values representing key modifiers: 'ctrl', 'alt', 'shift', 'meta'.
+         *   keyCode: {Number} The numeric keycode for the corresponding key firing the event
+         *
+         *   KeyCode Reference: https://developer.mozilla.org/en/DOM/Event/UIEvent/KeyEvent
+         *
+         */
+        key: function(elt, evtName, options) {
+            options = options || {};
+            evtName = evtName || 'keypress';
+            
+            var keyCode = options.keyCode || 0,
                 charCode = options.charCode || 0,
                 keys = options.keys ? options.keys.join(' ') : "",
                 ctrlKey = keys.indexOf('ctrl') > -1 ? true : false,
                 altKey = keys.indexOf('alt') > -1 ? true : false,
                 shiftKey = keys.indexOf('shift') > -1 ? true : false,
                 metaKey = keys.indexOf('meta') > -1 ? true : false,
-                evtMethod = evt.initKeyEvent ? "initKeyEvent" : "initKeyboardEvent";
+                evtMethod,
+                evt;
             
+            if (isIE) {
+                evtName = 'on' + evtName.toLowerCase();
+                
+                evt = document.createEventObject();
+                evt.ctrlKey = ctrlKey;
+                evt.altKey = altKey;
+                evt.shiftKey = shiftKey;
+                evt.metaKey = metaKey;
+                evt.keyCode = keyCode;
+                
+                return elt.fireEvent(evtName, evt);
+            }
+            
+            evt = document.createEvent("KeyboardEvent");
+            evtMethod = evt.initKeyEvent ? "initKeyEvent" : "initKeyboardEvent";
             evt[evtMethod](evtName, true, true, null, ctrlKey, altKey, shiftKey, metaKey, keyCode, charCode);
             
             return elt.dispatchEvent(evt);

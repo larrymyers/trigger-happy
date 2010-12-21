@@ -224,7 +224,7 @@
             });
             
             describe('keys', function() {
-                it('Should trigger a keydown event with a character code specified.', function() {
+                it('Should trigger a keydown event with a keycode specified.', function() {
                     var elt = $('#testElt').get(0);
                     
                     $(elt).keydown(function(evt) {
@@ -232,13 +232,9 @@
                         expect(evt.keyCode).toEqual(65);
                     });
                     
-                    Trigger.keys(elt, 'keydown', { keyCode: 65 });
+                    Trigger.key(elt, 'keydown', { keyCode: 65 });
                     
                     $(elt).unbind();
-                });
-                
-                it('Should trigger a keydown event with the keycode specified.', function() {
-                    
                 });
             });
         });
