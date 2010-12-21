@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Trigger Happy Tests</title>
+    
+    <link rel="stylesheet" href="jasmine.css" type="text/css" />
+    
+    <script type="text/javascript" src=" http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../src/trigger_happy.js"></script>
+</head>
+<body>
+    <input type="text"/>
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var elt = $('input').get(0);
+            
+            $(elt).focus();
+            
+            $(elt).keypress(function(evt) {
+                $(elt).val(evt.keyCode);
+            });
+            
+            Trigger.key(elt, 'keypress', { keyCode: 65, keys: ['shift'] });
+        });
+    </script>
+</body>
+</html>

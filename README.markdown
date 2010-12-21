@@ -14,8 +14,20 @@ Currently this library has been tested in:
 
 ## How to Use
 
-In progress, in the meantime the testsuite in test/testpage.html served as reasonable documentation.
+Include the trigger_happy.js script in the page, which will add a Trigger object to the
+global namespace. From there you can use it to simulate both mouse and keyboard events
+on the page.
 
 ## Example
 
-In Progress.
+To click on a link with the id 'foo':
+
+Trigger.mouse(document.getElementById('foo'), 'click');
+
+To right click on the body element of the page:
+
+Trigger.mouse(document.body, 'click', { button: 'right' });
+
+To type a capital letter 'A' on the first input field on the page:
+
+Trigger.key(document.getElementsByTagName('input')[0], 'keypress', { keyCode: 65, keys: ['shift'] });
